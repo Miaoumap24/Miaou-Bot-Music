@@ -1,0 +1,25 @@
+services:
+  # Le nom de ton service. Change "mon-bot-discord" si tu veux.
+  - name: mon-bot-discord
+    # C'est un bot, donc on utilise "worker" (tâche de fond)
+    type: worker
+    # Indique à Render d'utiliser Python 3
+    env: python
+    # Commande pour installer les dépendances (notre fameux fichier)
+    buildCommand: "pip install -r requirements.txt"
+    # Commande pour démarrer ton bot
+    startCommand: "python bot.py"
+    # C'est ici qu'on ajoute les variables d'environnement (comme ton token)
+    envVars:
+      - key: DISCORD_TOKEN
+        # Important : on va mettre la valeur directement dans le tableau de bord Render
+        # pour ne pas l'exposer dans le code.
+        value: "METS_TON_VRAI_TOKEN_SUR_LE_SITE_DE_RENDER"
+      # Ajoute cette ligne pour aider Python
+      - key: PYTHON_VERSION
+        value: 3.11.4
+
+# C'est la magie pour installer ffmpeg !
+# Render va installer ce paquet système avant de lancer ton bot.
+packages:
+  - name: ffmpeg
